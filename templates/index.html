@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard - Autonomous Phishing Detection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="hero-bg" aria-hidden></div>
+    <header>
+        <div class="container header-inner">
+            <div class="logo">
+                <div class="logo-badge" aria-hidden>
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>PhishGuard</h1>
+                    <p>Autonomous Phishing Detection</p>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="#" class="active" id="scan-link">Scan</a></li>
+                    <li><a href="#" id="database-link">Database</a></li>
+                    <li><a href="#" id="about-link">About</a></li>
+                    <div class="nav-underline" aria-hidden></div>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Scan Section -->
+        <section id="scan-section" class="active section-panel">
+            <div class="card hero-card">
+                <div class="hero-row">
+                    <div class="hero-left">
+                        <h2><i class="fas fa-search"></i> Phishing Scanner</h2>
+                        <p>Quickly detect suspicious URLs and phishing text with a modern, animated interface.</p>
+
+                        <form id="scan-form">
+                            <div class="input-group">
+                                <label for="url-input"><i class="fas fa-link"></i> URL</label>
+                                <input type="url" id="url-input" placeholder="https://example.com">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="text-input"><i class="fas fa-envelope"></i> Text Content</label>
+                                <textarea id="text-input" placeholder="Paste email content or text to analyze..."></textarea>
+                            </div>
+                            
+                            <button type="submit" id="scan-button" class="primary-btn">
+                                <span class="btn-icon"><i class="fas fa-bolt"></i></span>
+                                <span class="btn-text">Scan for Phishing</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="hero-right">
+                        <div class="glass-card status-card">
+                            <div class="status-graphic">
+                                <div class="pulse"></div>
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="status-text">
+                                <h3>Real-time Protection</h3>
+                                <p>Instant analysis, interactive feedback, and secure logging.</p>
+                            </div>
+                        </div>
+                        <div id="result-container" class="result-container hidden">
+                            <div id="result-content"></div>
+                        </div>
+
+                        <div class="glass-card weather-card">
+                            <div style="flex:1">
+                                <label for="weather-input" style="font-weight:700;color:#dff7ff;display:block;margin-bottom:6px">Weather (city)</label>
+                                <div style="display:flex;gap:8px;align-items:center">
+                                    <input id="weather-input" placeholder="Enter city (e.g. London)" style="flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#eaf6ff">
+                                    <button id="weather-btn" class="ghost-btn">Get</button>
+                                </div>
+                                <div id="weather-display" style="margin-top:10px;color:var(--muted);font-size:.95rem"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card clock-card">
+                            <div style="display:flex;flex-direction:column;gap:6px">
+                                <div id="clock" style="font-size:1.25rem;font-weight:700;color:#eaf6ff">--:--:--</div>
+                                <div id="date" style="color:var(--muted);font-size:.9rem">Loading date...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Database Section -->
+        <section id="database-section" class="hidden">
+            <div class="card">
+                <h2><i class="fas fa-database"></i> Detected Threats Database</h2>
+                <p>View all previously detected phishing attempts</p>
+                
+                <div class="controls">
+                    <button id="refresh-db"><i class="fas fa-sync"></i> Refresh</button>
+                    <button id="clear-db" class="danger"><i class="fas fa-trash"></i> Clear Database</button>
+                </div>
+                
+                <div class="table-container">
+                    <table id="database-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>URL/Text</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="database-body">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="no-data-message" class="no-data hidden">
+                    <p>No phishing attempts detected yet.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about-section" class="hidden">
+            <div class="card">
+                <h2><i class="fas fa-info-circle"></i> About PhishGuard</h2>
+                <p>PhishGuard is an autonomous phishing detection system that uses machine learning and pattern recognition to identify potential phishing attempts.</p>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <i class="fas fa-brain"></i>
+                        <h3>AI-Powered Detection</h3>
+                        <p>Uses transformer models to analyze text content for phishing indicators</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <i class="fas fa-code"></i>
+                        <h3>Pattern Recognition</h3>
+                        <p>Detects suspicious URL patterns and known phishing keywords</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <i class="fas fa-database"></i>
+                        <h3>Database Tracking</h3>
+                        <p>Maintains a database of detected threats for future reference</p>
+                    </div>
+                </div>
+                
+                <h3>How It Works</h3>
+                <ol class="steps">
+                    <li>Enter a URL or text content to analyze</li>
+                    <li>Our system checks for suspicious URL patterns</li>
+                    <li>Text content is analyzed using machine learning models</li>
+                    <li>Potential threats are flagged and added to the database</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 PhishGuard. Autonomous Phishing Detection System.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
